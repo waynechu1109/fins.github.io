@@ -70,6 +70,15 @@
       overflow-x: auto;
       border-radius: 6px;
     }
+    #post-footer {
+      text-align: center;
+      padding: 24px 0 40px;
+    }
+    #post-footer img {
+      max-width: 100%;
+      height: auto;
+      border: 0;
+    }
   </style>
 </head>
 
@@ -88,10 +97,10 @@ Wei-Teng Chu<sup>1</sup> · Tianyi Zhang<sup>2</sup> · Matthew Johnson-Roberson
 </div>
 
 <div class="links">
-  <a href="#">[Paper]</a>
-  <a href="#">[Code]</a>
+  <a href="https://arxiv.org/abs/2509.20681">[Paper]</a>
+  <a href="https://github.com/waynechu1109/FINS">[Code]</a>
   <!-- <a href="#">[Video]</a> -->
-  <a href="#">[BibTeX]</a>
+  <!-- <a href="#">[BibTeX]</a> -->
 </div>
 
 <div class="figure">
@@ -139,10 +148,10 @@ FINS addresses these limitations by enabling real-time, single-image SDF reconst
 <h2>Method Overview</h2>
 
 <div class="figure">
-  <img src="assets/pipeline.png" alt="Pipeline Overview">
+  <img src="media/pipeline.png" alt="Pipeline Overview">
   <div class="caption">
     FINS pipeline: single image → 3D foundation model → point cloud supervision → 
-    hash grid encoded implicit SDF → rapid second-order optimization.
+    hash grid encoded implicit SDF.
   </div>
 </div>
 
@@ -165,7 +174,8 @@ FINS addresses these limitations by enabling real-time, single-image SDF reconst
 <h2>Results</h2>
 
 <div class="figure">
-  <img src="assets/results.png" alt="Reconstruction Results">
+  <img src="media/more_results_mvs.png" alt="Reconstruction Results">
+  <img src="media/skill_head.png" alt="Reconstruction Results">
   <div class="caption">
     Reconstruction quality comparison. FINS achieves faster convergence and higher fidelity 
     under identical sparse-view conditions.
@@ -180,7 +190,11 @@ multi-view baselines in both surface accuracy and SDF quality.
 <h2>Robotics Applications</h2>
 
 <div class="figure">
-  <img src="assets/robot.png" alt="Robot Surface Following">
+  <p align="center">
+    <img src="./media/lawn_sta.png" height="220" />
+    <img src="./media/lawn_head.png" height="220" />
+    <img src="./media/lawn_rab.png" height="220" />
+</p>
   <div class="caption">
     Application to robot surface following and motion planning using learned SDF.
   </div>
@@ -199,20 +213,31 @@ The learned SDF representation enables:
 <h2>BibTeX</h2>
 
 <pre>
-@article{chu2025fins,
-  title={Efficient Construction of Implicit Surface Models From a Single Image for Motion Generation},
-  author={Chu, Wei-Teng and Zhang, Tianyi and Johnson-Roberson, Matthew and Zhi, Weiming},
-  journal={arXiv preprint arXiv:2509.20681},
-  year={2025}
+@misc{chu2025fins,
+    title         = {Efficient Construction of Implicit Surface Models From a Single Image for Motion Generation}, 
+    author        = {Wei-Teng Chu and Tianyi Zhang and Matthew Johnson-Roberson and Weiming Zhi},
+    year          = {2025},
+    eprint        = {2509.20681},
+    archivePrefix = {arXiv},
+    primaryClass  = {cs.RO},
+    url           = {https://arxiv.org/abs/2509.20681}, 
 }
 </pre>
 
-<h2>Acknowledgements</h2>
+<!-- <h2>Acknowledgements</h2>
 
 <p>
 We thank the contributors of DUSt3R, VGGT, and Instant-NGP for foundational tools that made this work possible.
-</p>
+</p> -->
 
 </div>
+
+<footer id="post-footer">
+  <script
+    type="text/javascript"
+    id="clustrmaps"
+    src="//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=200&t=n&d=AzWPHIC4eNznpTwBhNfHWjRoZ5OExZgFUj5mdXb7W4w&co=d3d3d3">
+  </script>
+</footer>
 </body>
 </html>
