@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FINS: Fast Image-to-Neural Surface</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      color: #222;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+    h1, h2, h3 {
+      font-weight: 600;
+    }
+    h1 {
+      font-size: 32px;
+      text-align: center;
+    }
+    h2 {
+      margin-top: 50px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 8px;
+    }
+    .authors {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    .affiliation {
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+    }
+    .links {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .links a {
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: 600;
+      color: #0066cc;
+    }
+    .figure {
+      text-align: center;
+      margin: 30px 0;
+    }
+    .figure img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+    .caption {
+      font-size: 14px;
+      color: #555;
+      margin-top: 8px;
+    }
+    pre {
+      background: #f6f8fa;
+      padding: 15px;
+      overflow-x: auto;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>FINS: Fast Image-to-Neural Surface</h1>
+
+<div class="authors">
+Wei-Teng Chu<sup>1</sup> · Tianyi Zhang<sup>2</sup> · Matthew Johnson-Roberson<sup>3,4</sup> · Weiming Zhi<sup>3,4,5</sup>
+</div>
+
+<div class="affiliation">
+<sup>1</sup> Stanford University · <sup>2</sup> Aurora · <sup>3</sup> Carnegie Mellon University · <sup>4</sup> Vanderbilt University · <sup>5</sup> The University of Sydney
+</div>
+
+<div class="links">
+  <a href="#">[Paper]</a>
+  <a href="#">[Code]</a>
+  <!-- <a href="#">[Video]</a> -->
+  <a href="#">[BibTeX]</a>
+</div>
+
+<div class="figure">
+    <p align="center">
+        <img src="./media/dtu_114_32.png" height="220" />
+        <img src="./media/sdf_buddha.gif" height="220" />
+        <img src="./media/franka_side.gif" height="220" />
+    </p>
+  <div class="caption">
+    FINS reconstructs high-fidelity surfaces and signed distance fields from a single RGB image in seconds,
+    enabling real-time robotic surface interaction.
+  </div>
+</div>
+
+<h2>Abstract</h2>
+
+<p>
+We present <b>Fast Image-to-Neural Surface (FINS)</b>, a lightweight framework for reconstructing high-fidelity 
+implicit surfaces and signed distance fields (SDFs) from a single image or sparse image set. 
+Unlike prior neural implicit methods that require dense multi-view supervision and long optimization times, 
+FINS converges within seconds by combining multi-resolution hash grid encoding, lightweight geometry and color heads, 
+and approximate second-order optimization. By leveraging pre-trained 3D foundation models to lift 2D observations into 
+3D point clouds, FINS enables accurate and efficient SDF supervision from minimal visual input. 
+We demonstrate superior convergence speed and reconstruction accuracy compared to state-of-the-art baselines, 
+and validate its applicability in robotic surface following and motion planning tasks.
+</p>
+
+<h2>Motivation</h2>
+
+<p>
+Signed Distance Fields (SDFs) are widely used in robotics for collision avoidance, motion planning, and 
+continuous surface interaction. However, existing neural implicit surface reconstruction methods typically:
+</p>
+
+<ul>
+  <li>Require dense multi-view images</li>
+  <li>Take minutes to hours to converge</li>
+  <li>Are unsuitable for real-time robotic deployment</li>
+</ul>
+
+<p>
+FINS addresses these limitations by enabling real-time, single-image SDF reconstruction.
+</p>
+
+<h2>Method Overview</h2>
+
+<div class="figure">
+  <img src="assets/pipeline.png" alt="Pipeline Overview">
+  <div class="caption">
+    FINS pipeline: single image → 3D foundation model → point cloud supervision → 
+    hash grid encoded implicit SDF → rapid second-order optimization.
+  </div>
+</div>
+
+<h3>Key Components</h3>
+
+<ul>
+  <li><b>3D Foundation Model Initialization</b>: 
+  Uses DUSt3R or VGGT to generate dense point clouds from single-view input.</li>
+  
+  <li><b>Multi-Resolution Hash Grid Encoding</b>: 
+  Efficiently encodes spatial coordinates with constant memory complexity.</li>
+  
+  <li><b>Lightweight Geometry & Color Heads</b>: 
+  Compact MLPs for rapid SDF and appearance regression.</li>
+  
+  <li><b>Approximate Second-Order Optimization (K-FAC)</b>: 
+  Accelerates convergence and stabilizes implicit field training.</li>
+</ul>
+
+<h2>Results</h2>
+
+<div class="figure">
+  <img src="assets/results.png" alt="Reconstruction Results">
+  <div class="caption">
+    Reconstruction quality comparison. FINS achieves faster convergence and higher fidelity 
+    under identical sparse-view conditions.
+  </div>
+</div>
+
+<p>
+FINS converges within <b>~10 seconds</b> on consumer-grade GPUs and outperforms 
+multi-view baselines in both surface accuracy and SDF quality.
+</p>
+
+<h2>Robotics Applications</h2>
+
+<div class="figure">
+  <img src="assets/robot.png" alt="Robot Surface Following">
+  <div class="caption">
+    Application to robot surface following and motion planning using learned SDF.
+  </div>
+</div>
+
+<p>
+The learned SDF representation enables:
+</p>
+
+<ul>
+  <li>Continuous collision checking</li>
+  <li>Surface tracing</li>
+  <li>Real-time path planning</li>
+</ul>
+
+<h2>BibTeX</h2>
+
+<pre>
+@article{chu2025fins,
+  title={Efficient Construction of Implicit Surface Models From a Single Image for Motion Generation},
+  author={Chu, Wei-Teng and Zhang, Tianyi and Johnson-Roberson, Matthew and Zhi, Weiming},
+  journal={arXiv preprint arXiv:2509.20681},
+  year={2025}
+}
+</pre>
+
+<h2>Acknowledgements</h2>
+
+<p>
+We thank the contributors of DUSt3R, VGGT, and Instant-NGP for foundational tools that made this work possible.
+</p>
+
+</div>
+</body>
+</html>
